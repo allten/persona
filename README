@@ -26,7 +26,7 @@
     CMD ["python", "app.py"]
 
 
-3. Docker Buildを行いましたが、gccエラーを出して、ネットを参考して以下の内容を追加しました。
+3. Docker Buildを行いましたが、gccエラーを出して、ネットを参考してDockerfileに以下の内容を追加しました。
 
     RUN apk add --update python py-pip python-dev
     RUN apk add make automake gcc g++ subversion python3-dev
