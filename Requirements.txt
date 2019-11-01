@@ -1,3 +1,5 @@
 Flask
+Flask-Sockets
 gevent
 gevent-websocket
+gunicorn
