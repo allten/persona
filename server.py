@@ -3,8 +3,12 @@ import json
 import datetime
 import time
 
-# from gevent import sleep as gsleep, Timeout
-# from geventwebsocket import WebSocketError
+
+from gevent import monkey
+monkey.patch_all()
+
+import grpc.experimental.gevent as grpc_gevent
+grpc_gevent.init_gevent()
 
 from gevent.pywsgi import WSGIServer
 from geventwebsocket.handler import WebSocketHandler
