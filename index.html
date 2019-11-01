@@ -1,0 +1,16 @@
+<!-- index.html -->
+<html>
+    <head>
+        <script type="text/javascript">
+            var ws = new WebSocket("ws://localhost:8080/pipe");
+
+            ws.onmessage = function(e) {
+              document.getElementById("text-field").innerHTML = e.data;
+            }
+        </script>
+    </head>
+    <body>
+        <h1>WebSocket Example</h1>
+        <p id="text-field"></p>
+    </body>
+</html>
