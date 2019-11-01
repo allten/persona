@@ -1,0 +1,51 @@
+
+
+1. https://note.mu/shimakaze_soft/n/n99b47eccd915 のコードを参考して以上３つのファイルを作成しました。
+
+    Requirements.txt
+    app.py
+    templates/index.html
+
+
+2. Docker Buildのため、Dockerfileを作成しました。
+
+    [Dockerfile]
+    
+    FROM python:3.8.0-alpine3.10
+
+    WORKDIR /
+
+    COPY Requirements.txt /Requirements.txt
+
+    RUN pip install -r Requirements.txt
+
+    COPY index.html /templates/index.html
+
+    COPY app.py /app.py
+
+    CMD ["python", "app.py"]
+
+
+3. Docker Buildを行いましたが、gccエラーを出して、ネットを参考して以下の内容を追加しました。
+
+    RUN apk add --update python py-pip python-dev
+    RUN apk add make automake gcc g++ subversion python3-dev
+    RUN apk --no-cache add ca-certificates
+
+
+4. Docker Buildに成功しましたが、Docker Run実行しても反応なしでブラウザーでも接続できませんでした。
+　　強制終了したら、先ほどのエラーが出ました。
+
+    Traceback (most recent call last):
+    File "app.py", line 54, in <module>
+        server.serve_forever()
+    File "/root/.local/lib/python3.8/site-packages/gevent/baseserver.py", line 369, in serve_forever
+        self._stop_event.wait()
+    File "src/gevent/event.py", line 127, in gevent._event.Event.wait
+    File "src/gevent/_abstract_linkable.py", line 192, in gevent.__abstract_linkable.AbstractLinkable._wait
+    File "src/gevent/_abstract_linkable.py", line 165, in gevent.__abstract_linkable.AbstractLinkable._wait_core
+    File "src/gevent/_abstract_linkable.py", line 169, in gevent.__abstract_linkable.AbstractLinkable._wait_core
+    File "src/gevent/_greenlet_primitives.py", line 60, in gevent.__greenlet_primitives.SwitchOutGreenletWithLoop.switch
+    File "src/gevent/_greenlet_primitives.py", line 60, in gevent.__greenlet_primitives.SwitchOutGreenletWithLoop.switch
+    File "src/gevent/_greenlet_primitives.py", line 64, in gevent.__greenlet_primitives.SwitchOutGreenletWithLoop.switch
+    File "src/gevent/__greenlet_primitives.pxd", line 35, in gevent.__greenlet_primitives._greenlet_switch
