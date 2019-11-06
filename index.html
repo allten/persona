@@ -5,8 +5,8 @@
     </head>
     <body>
         <h1>websocket chat</h1>
-
-        <input type="text" id="msg" value="> message"/>
+        <input type="text" id="chatname" value=" name"/>
+        <input type="text" id="msg" value=" message"/>
         <button id="sendBtn">send</button>
         <ul id="rcv"></ul>
     </body>
@@ -20,13 +20,18 @@
             var message_data = JSON.parse(message.data);
             var time = message_data['time'];
             var message = message_data['message'];
+            var chatname = message_data['chatname'];
 
-            var string_txt = "[" + time + "] - " + message
+            var string_txt = "[" + time + "] - " + message + ":" + chatname
             $("#rcv").append("<li>" + string_txt + "</li>")
+            // var current = JSON.parse(msg.data);
+            // message.push(current);
         }
 
         $("#sendBtn").on("click",function(){
+            chatname = $("#chatname").val()
             message = $("#msg").val()
+            ws.send(chatname);
             ws.send(message);
         });
     </script>

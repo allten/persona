@@ -24,18 +24,20 @@ def pipe():
         while True:
             time.sleep(1)
             message = ws.receive()
-
+            chatname = ws.receive()
             if message is None:
                 break
 
             datetime_now = datetime.datetime.now()
             data = {
                 'time': str(datetime_now),
-                'message': message
+                'message': message,
+                'chatname': chatname
             }
             ws.send(json.dumps(data))
 
             print(message)
+            print(chatname)
             print(data)
 
     return
@@ -44,7 +46,7 @@ def pipe():
 if __name__ == '__main__':
     app.debug = True
 
-    host = 'localhost'
+    host = '0.0.0.0'
     port = 8080
     host_port = (host, port)
 
