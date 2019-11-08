@@ -1,7 +1,8 @@
 FROM python:3.6-alpine
-ENV PYTHONUNBUFFERED 1
 
 WORKDIR /
+
+EXPOSE 8080
 
 COPY Requirements.txt /Requirements.txt
 

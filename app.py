@@ -1,20 +1,22 @@
 import json
 import datetime
 import time
+import collections
 
 from gevent.pywsgi import WSGIServer
 from geventwebsocket.handler import WebSocketHandler
-
 from flask import Flask, request, render_template
 
 app = Flask(__name__)
 app.config.from_object(__name__)
 
+class chat(object):
+    def backlog(self, size=25):
+        return self.messages[-size:]
 
 @app.route('/')
 def index():
     return render_template('index.html')
-
 
 @app.route('/pipe')
 def pipe():
@@ -25,15 +27,17 @@ def pipe():
             time.sleep(1)
             message = ws.receive()
             chatname = ws.receive()
+            backlog = active_room_backlog
             if message is None:
                 break
 
             datetime_now = datetime.datetime.now()
             data = {
-                'time': str(datetime_now),
+                'time': str(datetime_now.strftime('%Y年%m月%d日 %H:%M:%S')),
                 'message': message,
                 'chatname': chatname
             }
+            
             ws.send(json.dumps(data))
 
             print(message)
@@ -45,14 +49,5 @@ def pipe():
 
 if __name__ == '__main__':
     app.debug = True
-
-    host = '0.0.0.0'
-    port = 8080
-    host_port = (host, port)
-
-    server = WSGIServer(
-        host_port,
-        app,
-        handler_class=WebSocketHandler
-    )
+    server = WSGIServer(('localhost', 8080), app, handler_class=WebSocketHandler)
     server.serve_forever()
