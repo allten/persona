@@ -34,14 +34,22 @@
     var socket = io.connect('http://' + document.domain + ':' + location.port);
 
     socket.on('connect', function(){
-        socket.emit('message', {data: 'Connected'});
+        socket.emit('tochat', {data: 'Connected'});
         var form = $('form').on('submit', function(e){
             e.preventDefault()
 
-            let username = $('#txtUsername').val();
-            let roomname = $('#txtRoomname').val();
+            let Username = $('#txtUsername').val();
+            let Roomname = $('#txtRoomname').val();
+            socket.emit('tochat', {
+                username:Username,
+                roomname:Roomname
+                document.location = $("#txtRoomname").val();
+            })
+            $('#txtUsername').val(Username);
+            $('#txtRoomname').val(Roomname);
         })
     })
+
 </script>
 </body>
 </html>

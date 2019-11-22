@@ -36,8 +36,7 @@
         socket.emit('message', {data: 'Connected'});
         var form = $('form').on('submit', function(e){
             e.preventDefault()
-
-            let Username = $('#username').val();
+            
             let Message = $('#txtMessage').val();
             socket.emit('message', {
                 username:Username,
