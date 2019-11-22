@@ -1,0 +1,7 @@
+*.pyc
+*~
+*.swp
+Pipfile
+Pipfile.lock
+*.json
+.vscode
