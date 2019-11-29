@@ -42,14 +42,14 @@
                 username:Username,
                 message:Message
             })
-            // $('#username').val(Username);
+            $('#username').val(Username);
             $('#txtMessage').val('').focus();
         })
     })
 
     socket.on('response', function(msg){
         console.log(msg)
-        if (typeof msg.username !== 'undefined'){
+        if (typeof msg.message !== 'undefined'){
             $("#messages").append("<li><strong>" + "</strong>: " + msg.message + "</li>");
         }
     });

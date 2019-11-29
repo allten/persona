@@ -37,13 +37,14 @@
         socket.emit('joinchat', {data: 'Connected'});
         var form = $('form').on('submit', function(e){
             e.preventDefault()
-
+        
             let Username = $('#txtUsername').val();
             let Roomname = $('#txtRoomname').val();
 
             socket.emit('joinchat', {
                 username : Username,
                 roomname : Roomname
+                // return redirect(url_for("/roomname"))
             })
             $('#txtUsername').val(Username);
             $('#txtRoomname').val('').focus();
