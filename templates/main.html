@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Chatpy with flask and SocketIO</title>
+    <title>Flask + SocketIO Chat</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
@@ -34,19 +34,19 @@
     var socket = io.connect('http://' + document.domain + ':' + location.port);
 
     socket.on('connect', function(){
-        socket.emit('tochat', {data: 'Connected'});
+        socket.emit('joinchat', {data: 'Connected'});
         var form = $('form').on('submit', function(e){
             e.preventDefault()
 
             let Username = $('#txtUsername').val();
             let Roomname = $('#txtRoomname').val();
-            socket.emit('tochat', {
-                username:Username,
-                roomname:Roomname
-                document.location = $("#txtRoomname").val();
+
+            socket.emit('joinchat', {
+                username : Username,
+                roomname : Roomname
             })
             $('#txtUsername').val(Username);
-            $('#txtRoomname').val(Roomname);
+            $('#txtRoomname').val('').focus();
         })
     })
 
