@@ -17,7 +17,8 @@
             </div>
             <div class="card-footer">
                 <form action="" method="post" class="form-inline">
-                    <input class="form-control ml-1" id="txtMessage" type="text" name="message" placeholder="input messages...">
+                    <input class="form-control ml-1" id="inputUsername" type="text" name="message" placeholder="input your name">
+                    <input class="form-control ml-1" id="inputMessages" type="text" name="message" placeholder="input messages">
                     <button id="send" class="btn btn-sm btn-primary ml-1" type="submit" name="button">Enter</button>
                 </form>
             </div>
@@ -37,20 +38,26 @@
         var form = $('form').on('submit', function(e){
             e.preventDefault()
             
-            let Message = $('#txtMessage').val();
+            let Username = $('#inputUsername').val();
+            let Message = $('#inputMessages').val();
+            
+            console.log(Username)
+            console.log(Message)
+            
             socket.emit('message', {
                 username:Username,
                 message:Message
             })
-            $('#username').val(Username);
-            $('#txtMessage').val('').focus();
+
+            $('#inputUsername').val(Username);
+            $('#inputMessages').val('').focus();
         })
     })
-
+   
     socket.on('response', function(msg){
         console.log(msg)
-        if (typeof msg.message !== 'undefined'){
-            $("#messages").append("<li><strong>" + "</strong>: " + msg.message + "</li>");
+        if (typeof msg.username !== 'undefined'){
+            $("#messages").append("<li><strong>" + msg.username + "</strong>: " + msg.message + "</li>");
         }
     });
 

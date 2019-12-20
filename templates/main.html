@@ -14,40 +14,44 @@
                 <h3 class="card-title">chat</h3>
             </div>
             <div class="card-body">
-                Welcome to Chat Room, Please input your Username and Roomname.
+                おはようございます。ルームネームを入力してください。
             </div>
             <div class="card-footer">
                 <form action="" method="post" class="form-inline">
-                    <input class="form-control ml-1" id="txtUsername" type="text" name="username" placeholder="input your name">
-                    <input class="form-control ml-1" id="txtRoomname" type="text" name="roomname" placeholder="input room name">
+                    <input class="form-control ml-1" id="join_room" type="text" name="room" placeholder="input room name">
                     <button id="send" class="btn btn-sm btn-primary ml-1" type="submit" name="button">Enter</button>
                 </form>
             </div>
         </div>
-    </div>
+    </div> 
+    
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
 
 <script type="text/javascript">
+
     var socket = io.connect('http://' + document.domain + ':' + location.port);
 
     socket.on('connect', function(){
-        socket.emit('joinchat', {data: 'Connected'});
+        socket.emit('join', {room: $('#join_room').val()});
         var form = $('form').on('submit', function(e){
             e.preventDefault()
-        
-            let Username = $('#txtUsername').val();
-            let Roomname = $('#txtRoomname').val();
+            return false;
+            
 
-            socket.emit('joinchat', {
-                username : Username,
-                roomname : Roomname
-                // return redirect(url_for("/roomname"))
-            })
-            $('#txtUsername').val(Username);
-            $('#txtRoomname').val('').focus();
+            // let user = $('#inputuname').val();
+            // // console.log('#inputuname');
+            // let room = $('#inputrname').val();
+            // console.log('#inputrname');
+            // // socket.emit('join', {
+            //     'user' : inputuname,
+            //     'room' : inputrname
+            //     // return redirect(url_for("/roomname"))
+            // })
+            // $('#inputuname').val(username);
+            // $('#inputrname').val(roomname).focus();
         })
     })
 
