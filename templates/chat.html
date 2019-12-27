@@ -31,8 +31,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
 
 <script type="text/javascript">
-    var socket = io.connect('http://' + document.domain + ':' + location.port + "/chat");
-
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
     socket.on('connect', function(){
         socket.emit('message', {data: 'Connected'});
         var form = $('form').on('submit', function(e){
@@ -50,14 +49,12 @@
             $('#txtMessage').val('').focus();
         })
     })
-   
     socket.on('response', function(msg){
         console.log(msg)
         if (typeof msg.name !== 'undefined'){
             $("#messages").append("<li><strong>" + msg.name + "</strong>: " + msg.messages + "</li>");
         }
     });
-
     </script>
 </body>
 </html>

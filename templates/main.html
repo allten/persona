@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-
     <div class="container">
         <div class="card">
             <div class="card-header">
@@ -17,16 +16,10 @@
                 おはようございます。ルームネームを入力してください。
             </div>
             <div class="card-footer">
-                <form action="{{ url_for('.chat') }}" method="POST" class="LoginForm">
+                <form action="" method="POST" class="LoginForm">
                     {{ form.hidden_tag() }}
                     {{ form.room }}
-                    {{ form.csrf }}
-                    <!-- <input class="form-control ml-1" id="room" type="text" name="room" placeholder="input roomname">{{ form.room }} -->
-                    <!-- <input class="form-control ml-1" id="leave_room" type="text" name="leave_room" placeholder="leave room"> -->
                     <button class="btn btn-sm btn-primary ml-1" type="submit" name="room">Enter</button>
-                    {% for field, err in erros %}
-                    <div>{{field}} : {{err|join(', ')}}</div>
-                    {% endfor %}
                 </form>
             </div>
         </div>
@@ -37,21 +30,15 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
 <script type="text/javascript">
     var socket = io.connect('http://' + document.domain + ':' + location.port);
+    socket.on('connect',function(){
+        socket.emit('my_event',{data:'I`m  Connected!'});
+    });
 
-    // socket.on('connect',function(){
-    //     socket.emit('my_event',{data:'I`m  Connected!'});
-    // });
-
-    // $('form#join').submit(function(event) {
-    //     socket.emit('join', {room: $('#room').val()});
-    //     console.log(room)
-    //     return false;
-    // });
-
-
+    $('form#join').submit(function(event) {
+        socket.emit('join', {room: $('#room').val()});
+        console.log(room)
+        return false;
+    });
 </script>
-
-
-
 </body>
 </html>
