@@ -2,14 +2,14 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>chat</title>
+    <title>chat : room {{ room }}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
     <div class="container">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">chat</h3>
+                <h3 class="card-title">chat {{ room }}</h3>
             </div>
             <div class="card-body">
                 <ul id="messages">
@@ -31,7 +31,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
 
 <script type="text/javascript">
-    var socket = io.connect('http://' + document.domain + ':' + location.port);
+    var socket = io.connect('http://' + document.domain + ':' + location.port + "/chat");
 
     socket.on('connect', function(){
         socket.emit('message', {data: 'Connected'});

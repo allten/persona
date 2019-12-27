@@ -16,7 +16,7 @@ socketio = SocketIO(app)
 # メインページ(index)ページでは、GET,POSTメソードを使用し、render_templateモジュールでmain.htmlをロードする。
 
 class LoginForm(FlaskForm):
-    name = StringField('Name', validators=[InputRequired()])
+    # name = StringField('Name', validators=[InputRequired()])
     room = StringField('Room', validators=[InputRequired()])
     submit = SubmitField('Enter Chatroom')
 
@@ -26,47 +26,31 @@ def index():
     if form.validate_on_submit():
         # session['name'] = form.name.data
         session['room'] = form.room.data
-        return redirect(url_for('.chat'))
+        return redirect(url_for("chat"))
     elif request.method == 'GET':
         # form.name.data = session.get('name', '')
         form.room.data = session.get('room', '')
-    return render_template('main.html', form=form)
+    return render_template('main.html', form=form, errors=form.errors.items())
+
+
+@app.route("/chat", methods=['GET', 'POST'])
+def chat():
+    # name = session.get('name', '')
+    room = session.get("room", '')
+    if room == '':
+        return redirect(url_for("index"))
+    return render_template('chat.html', room=room)
 
 @socketio.on("message")
 def handle_messages(json, methods=['GET', 'POST']):
     print("received my event: " + str(json))
     socketio.emit("response", json, callback=messageReceived)
 
-def on_join(self, message):
-    join_room(message['room'])
-     # session['receive_count'] = session.get('receive_count', 0) + 1
-    emit('my_response',{'data': 'In rooms: ' + ', '.join(rooms())})
-
-def on_leave(self, message):
-    leave_room(message['room'])
-# session['receive_count'] = session.get('receive_count', 0) + 1
-    emit('my_response',{'data': 'In rooms: ' + ', '.join(rooms())})
-
-def on_close_room(self, message):
-# session['receive_count'] = session.get('receive_count', 0) + 1
-    emit('my_response', {'data': 'Room ' + message['room'] + ' is closing.'},room=message['room'])
-    close_room(message['room'])
-
-# def on_my_room_event(self, message):
-# # session['receive_count'] = session.get('receive_count', 0) + 1
-#     emit('my_response',{'data': message['data'], room=message['room']})
-
-
-@app.route("/chat", methods=['GET', 'POST'])
-def chat():
-    # name = session.get('name', '')
-    room = session.get('room', '')
-    if room == '':
-        return redirect(url_for('.index'))
-    return render_template('chat.html', room=room)
-
-def messageReceived(methods=['GET', 'POST']):
-    print('message received')
+@socketio.on('joined', namespace='/chat')
+def joined(message):
+    room = session.get('room')
+    join_room(room)
+    emit('status', {'msg': session.get('name') + ' has entered the room.'}, room=room)
 
 if __name__ == '__main__':
     socketio.run(app, debug=True, host="0.0.0.0", port=5000)

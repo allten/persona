@@ -17,10 +17,16 @@
                 おはようございます。ルームネームを入力してください。
             </div>
             <div class="card-footer">
-                <form action="" method="post" class="form-inline">
-                    <input class="form-control ml-1" id="room" type="text" name="room" placeholder="join room">
+                <form action="{{ url_for('.chat') }}" method="POST" class="LoginForm">
+                    {{ form.hidden_tag() }}
+                    {{ form.room }}
+                    {{ form.csrf }}
+                    <!-- <input class="form-control ml-1" id="room" type="text" name="room" placeholder="input roomname">{{ form.room }} -->
                     <!-- <input class="form-control ml-1" id="leave_room" type="text" name="leave_room" placeholder="leave room"> -->
-                    <button id="send" class="btn btn-sm btn-primary ml-1" type="submit" name="button">Enter</button>
+                    <button class="btn btn-sm btn-primary ml-1" type="submit" name="room">Enter</button>
+                    {% for field, err in erros %}
+                    <div>{{field}} : {{err|join(', ')}}</div>
+                    {% endfor %}
                 </form>
             </div>
         </div>
@@ -30,14 +36,14 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
 <script type="text/javascript">
-    // var socket = io.connect('http://' + document.domain + ':' + location.port);
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
 
     // socket.on('connect',function(){
     //     socket.emit('my_event',{data:'I`m  Connected!'});
     // });
 
     // $('form#join').submit(function(event) {
-    //     socket.emit('join', {room: $('#join_room').val()});
+    //     socket.emit('join', {room: $('#room').val()});
     //     console.log(room)
     //     return false;
     // });
