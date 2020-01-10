@@ -17,12 +17,12 @@ def index():
     form = LoginForm(request.form)
     if form.validate_on_submit():
         session['room'] = form.room.data
-        return redirect(url_for("chat"))
+        return redirect(url_for(".chat"))
     elif request.method == 'GET':
         form.room.data = session.get('room', '')
     return render_template('main.html', form=form)
 
-@app.route("/<room>", methods=['GET', 'POST'])
+@app.route("/chat", methods=['GET', 'POST'])
 def chat():
     room = session.get('room', '')
     if room == '':
