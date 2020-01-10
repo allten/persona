@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, request, session
-from flask_socketio import SocketIO, emit, join_room, leave_room
+from flask_socketio import SocketIO, emit, join_room, leave_room, rooms
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import InputRequired
@@ -37,11 +37,11 @@ def handle_messages(json, methods=['GET', 'POST']):
     print("received my event: " + str(json))
     socketio.emit("response", json, callback=messageReceived)
 
-@socketio.on('joined', namespace='/chat')
+@socketio.on('joined')
 def joined(message):
     room = session.get('room')
-    join_room(room)
-    emit('status', {'msg': session.get('name') + ' has entered the room.'}, room=room)
+    join_room('room')
+    emit('status', {'msg': session.get('room') + ' has entered the room.'}, room=room)
 
 if __name__ == '__main__':
     socketio.run(app, debug=True, host="0.0.0.0", port=5000)
