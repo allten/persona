@@ -35,7 +35,7 @@
     });
     $('form#join').submit(function(event) {
         console.log(room)
-        socket.emit('join', {room: $('#room').val()});
+        socket.emit('join', {room: $('#join_room').val()});
         return false;
     });
 </script>

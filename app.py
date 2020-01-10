@@ -38,9 +38,10 @@ def handle_messages(json, methods=['GET', 'POST']):
     socketio.emit("response", json, callback=messageReceived)
 
 @socketio.on('joined')
-def joined(message):
+def join(message):
+    join_room(message['room'])
     room = session.get('room')
-    join_room('room')
+    
     emit('status', {'msg': session.get('room') + ' has entered the room.'}, room=room)
 
 if __name__ == '__main__':
